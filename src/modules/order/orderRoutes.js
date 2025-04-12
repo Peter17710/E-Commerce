@@ -1,6 +1,6 @@
 import express from "express"
 import { protectRoutes } from "../auth/authController.js";
-import { createOrder, deleteOrder, getAllOrders, getOrder, onlinePayment } from "./orderControllers.js";
+import { createOnlineOrder, createOrder, deleteOrder, getAllOrders, getOrder, onlinePayment } from "./orderControllers.js";
 
 const orderRouter = express.Router()
 
@@ -14,6 +14,9 @@ orderRouter.route("/checkout/:id")
 orderRouter.route("/")
 .get(protectRoutes , getAllOrders)
 .get(protectRoutes , getOrder)
+
+orderRouter.route("/webhook")
+.post(express.raw({type: 'application/json'}) , createOnlineOrder)
 
 
 export default orderRouter;
