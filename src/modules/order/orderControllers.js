@@ -6,6 +6,7 @@ import appError from "../../utils/appError.js";
 import Stripe from 'stripe';
 import express from "express";
 import { deleteOne } from "../handlers/apiHandler.js";
+import { User } from "../../../db/models/user.model.js";
 const stripe = new Stripe('sk_test_51Q57XlGCaSSDGTYlKQXLlBF6J5IyVkegVXXiOSbPAILztQoatIA7DQ7mD5g8VmAR1d8o2vpZfxU1TTlV0dLZoxID00g9k9mA6t');
 
 
@@ -29,12 +30,8 @@ export const createOrder = handleAsyncError(async (req, res, next) => {
             updateOne: {
                 filter: { _id: item.product },
                 update: { $inc: { quantity: -item.quantity, sold: item.quantity } }
-            }
-        }
-
-
+ }}
         ));
-
         await Product.bulkWrite(options)
         await order.save()
     } else {
@@ -91,9 +88,10 @@ export const onlinePayment = handleAsyncError(async (req, res, next) => {
 
 const app = express();  
 
-export const createOnlineOrder = handleAsyncError(async (request, response) => {
-  const sig = request.headers['stripe-signature'];
 
+
+export const createOnlineOrder = handleAsyncError(async (request, response , next) => {
+  const sig = request.headers['stripe-signature'];
   let event;
 
   try {
@@ -105,8 +103,33 @@ export const createOnlineOrder = handleAsyncError(async (request, response) => {
 
   if(event.type == "checkout.session.completed"){
     //Create Order
-    const checkSessionCompleted = event.data.object;
-    console.log("Done");
+    const e = event.data.object;
+
+    let cart = await Cart.findById(e.client_reference_id);
+    if (!cart) return next(new appError("not valid found", 404))
+
+    let user = await User.findById({email: e.customer_email});
+    if (!user) return next(new appError("not valid found", 404))
+
+        let order = new Order({
+            user: user._id,
+            cartItems: cart.cartItems,
+            totalPrice: e.amount_total / 100,
+            shippingAddress: e.metadata,
+            paymentMethod: "credit",
+            isPaid: true
+        })
+        await order.save();
+
+        
+        if (order) {
+            let options = cart.cartItems.map((item) => ({
+                updateOne: {
+                    filter: { _id: item.product },
+                    update: { $inc: { quantity: -item.quantity, sold: item.quantity } }
+     }}
+            ));
+            await Product.bulkWrite(options);
   }else{
     console.log(`Unhandeled event type ${event.type}`);
     
@@ -114,6 +137,4 @@ export const createOnlineOrder = handleAsyncError(async (request, response) => {
 
   // Return a response to acknowledge receipt of the event
   response.json({message: "Done"});
-});
-
-    
+}});
