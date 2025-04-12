@@ -11,6 +11,7 @@ app.use(express.json())
 app.use("/uploads", express.static("uploads"))
 app.use(cors())
 
+
 connection
 bootstrap(app)
 app.get("/", (req, res, next) => {

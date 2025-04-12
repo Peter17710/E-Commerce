@@ -4,6 +4,7 @@ import { Product } from "../../../db/models/product.model.js";
 import { handleAsyncError } from "../../middleware/handleAsyncError.js";
 import appError from "../../utils/appError.js";
 import Stripe from 'stripe';
+import express from "express";
 import { deleteOne } from "../handlers/apiHandler.js";
 const stripe = new Stripe('sk_test_51Q57XlGCaSSDGTYlKQXLlBF6J5IyVkegVXXiOSbPAILztQoatIA7DQ7mD5g8VmAR1d8o2vpZfxU1TTlV0dLZoxID00g9k9mA6t');
 
@@ -91,4 +92,32 @@ export const onlinePayment = handleAsyncError(async (req, res, next) => {
 
 export const createOnlineOrder = handleAsyncError(async (req, res, next) => {
 
+    const app = express();
+    
+    app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+      const sig = request.headers['stripe-signature'];
+    
+      let event;
+    
+      try {
+        event = stripe.webhooks.constructEvent(request.body, sig, "whsec_ouKas4HG97vSplM2XDgzPVK1PtrMcRBz");
+      }
+      catch (err) {
+        return response.status(400).send(`Webhook Error: ${err.message}`);
+      }
+    
+      if(event.type == "checkout.session.completed"){
+        //Create Order
+        const checkSessionCompleted = event.data.object;
+        console.log("Done");
+      }else{
+        console.log(`Unhandeled event type ${event.type}`);
+        
+      }
+    
+      // Return a response to acknowledge receipt of the event
+      response.json({message: "Done"});
+    });
+    
+    app.listen(4242, () => console.log('Running on port 4242'));
 })
