@@ -13,7 +13,6 @@ const schema = new mongoose.Schema({
     totalPrice: Number ,
     discount: Number ,
     totalPriceAfterDiscount: Number ,
-    
 },
 {timestamps: true , versionKey:false})
 

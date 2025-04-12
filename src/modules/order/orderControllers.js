@@ -34,6 +34,7 @@ export const createOrder = handleAsyncError(async (req, res, next) => {
         ));
         await Product.bulkWrite(options)
         await order.save()
+        res.json({ message: "Done", order });
     } else {
         return next(new appError("error occur", 409))
     }
@@ -102,13 +103,13 @@ export const createOnlineOrder = handleAsyncError(async (request, response , nex
   }
 
   if(event.type == "checkout.session.completed"){
-    //Create Order
-    const e = event.data.object;
+    //Create Orderrr
+    const checkoutSessionCompleted = event.data.object;
 
-    let cart = await Cart.findById(e.client_reference_id);
+    let cart = await Cart.findById(checkoutSessionCompleted.client_reference_id);
     if (!cart) return next(new appError("not valid found", 404))
 
-    let user = await User.findById({email: e.customer_email});
+    let user = await User.findById({email: checkoutSessionCompleted.customer_email});
     if (!user) return next(new appError("not valid found", 404))
 
         let order = new Order({
