@@ -1,46 +1,61 @@
-ECommerce/
-│
-├── db/
-│   ├── [connection.js](http://_vscodecontentref_/1)
-│   └── models/
-│       ├── [brand.model.js](http://_vscodecontentref_/2)
-│       ├── [cart.model.js](http://_vscodecontentref_/3)
-│       ├── [category.model.js](http://_vscodecontentref_/4)
-│       ├── [coupon.model.js](http://_vscodecontentref_/5)
-│       ├── [order.model.js](http://_vscodecontentref_/6)
-│       ├── [product.model.js](http://_vscodecontentref_/7)
-│       ├── [review.model.js](http://_vscodecontentref_/8)
-│       ├── [subCategory.model.js](http://_vscodecontentref_/9)
-│       └── [user.model.js](http://_vscodecontentref_/10)
-│
-├── src/
-│   ├── middleware/
-│   │   ├── [handleAsyncError.js](http://_vscodecontentref_/11)
-│   │   └── [validation.js](http://_vscodecontentref_/12)
-│   │
-│   ├── modules/
-│   │   ├── auth/
-│   │   ├── brand/
-│   │   ├── cart/
-│   │   ├── category/
-│   │   ├── coupon/
-│   │   ├── handlers/
-│   │   ├── order/
-│   │   ├── product/
-│   │   ├── review/
-│   │   ├── subCategory/
-│   │   ├── user/
-│   │   └── wishList/
-│   │
-│   ├── utils/
-│   │   ├── [APIFeatures.js](http://_vscodecontentref_/13)
-│   │   ├── [appError.js](http://_vscodecontentref_/14)
-│   │   ├── [fileUpload.js](http://_vscodecontentref_/15)
-│   │   └── [globalError.js](http://_vscodecontentref_/16)
-│   │
-│   └── [Bootstrap.js](http://_vscodecontentref_/17)
-│
-├── .gitignore
-├── [package.json](http://_vscodecontentref_/18)
-├── [server.js](http://_vscodecontentref_/19)
-└── [README.md](http://_vscodecontentref_/20)
+# E-Commerce Platform
+
+## Overview
+This is a fully functional **E-Commerce platform** built with **Node.js**, **Express.js**, and **MongoDB**. It provides a robust backend API for managing users, products, orders, carts, payments, and more. The platform is designed to handle essential e-commerce functionalities such as user authentication, product management, order processing, and payment integration.
+
+---
+
+## Features
+
+### User Management
+- User registration and login with JWT-based authentication.
+- Role-based access control (e.g., admin and user roles).
+- Password hashing and secure token verification.
+- Wishlist functionality for users.
+
+### Product Management
+- CRUD operations for products, categories, subcategories, and brands.
+- Support for product images with file upload functionality.
+- Virtual fields for product reviews and ratings.
+
+### Cart and Order Management
+- Add, update, and remove items from the cart.
+- Apply discount coupons to the cart.
+- Create and manage orders with payment status tracking.
+
+### Payment Integration
+- Integrated with **Stripe** for online payments.
+- Webhook support for handling payment events.
+
+### Coupon System
+- Create and manage discount coupons.
+- Apply coupons to reduce cart total.
+
+### Review and Rating System
+- Users can add reviews and ratings for products.
+- Reviews are linked to users and products.
+
+### API Features
+- Pagination, filtering, sorting, and search for product and category listings.
+- Validation for incoming requests using **Joi**.
+
+---
+
+## Technologies Used
+- **Node.js**: Backend runtime environment.
+- **Express.js**: Web framework for building RESTful APIs.
+- **MongoDB**: NoSQL database for data storage.
+- **Mongoose**: ODM for MongoDB.
+- **Stripe**: Payment gateway integration.
+- **Multer**: File upload handling.
+- **Joi**: Request validation.
+- **JWT**: Secure authentication.
+
+---
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/ECommerce.git
+   cd ECommerce
