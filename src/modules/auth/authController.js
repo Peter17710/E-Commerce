@@ -9,7 +9,7 @@ import appError from "../../utils/appError.js"
     if (checkUser) return next(new appError("email already exist!" , 409))
     let user = new User (req.body)
     let added = await user.save()    
-    res.json({message: "added" , added}) 
+    res.status(201).json({message: "added" , added}) 
 } )
 
     export const signIn = handleAsyncError(async(req,res,next)=>{
@@ -18,7 +18,7 @@ import appError from "../../utils/appError.js"
 
     if(founded && match){
         let token = jwt.sign({name:founded.name , userId:founded._id , role:founded.role} , "bl7")
-      return  res.json({message: "Done!" , token})
+      return  res.status(201).json({message: "Done!" , token})
     }
     next(new appError("invalid email or password" , 401))
     })

@@ -5,7 +5,7 @@ export default class APIFeatures {
     }
 
     pagination(){
-        let page = this.queryString.page*1 || 1 
+        let page = this.queryString.page*1 || 1  //el || 1 34an lw md5lna4 page fl params w *1 34an tb2a number msh string
         if(this.queryString.page <= 0) page= 1
         let skip = (page-1)*4
         this.page = page
@@ -19,7 +19,7 @@ export default class APIFeatures {
         excludedQuery.forEach((e) =>{
             delete filterObj[e]
         })
-
+        // plus the $ to gte at query 
         filterObj = JSON.stringify(filterObj)
         filterObj = filterObj.replace(/\bgt|gte|lt|lte\b/g,match => `$${match}`)
         filterObj = JSON.parse(filterObj)
@@ -30,7 +30,7 @@ export default class APIFeatures {
 
     sort(){
         if(this.queryString.sort){
-            let sortBy = this.queryString.sort.split(",").join(" ")
+            let sortBy = this.queryString.sort.split(",").join(" ") //["-price","sold"] => -price sold
             this.mongooseQuery.sort(sortBy)
             }
         return this ;
@@ -46,7 +46,7 @@ export default class APIFeatures {
 
     fields(){
         if(this.queryString.fields){
-            let field = this.queryString.fields.split(",").join(" ")
+            let field = this.queryString.fields.split(",").join(" ") //["-price","sold"] => -price sold
             this.mongooseQuery.select(field)
             }
         return this ;
