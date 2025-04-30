@@ -1,7 +1,9 @@
 # E-Commerce Platform
 
 ## Overview
-This is a fully functional **E-Commerce platform** built with **Node.js**, **Express.js**, and **MongoDB**. It provides a robust backend API for managing users, products, orders, carts, payments, and more. The platform is designed to handle essential e-commerce functionalities such as user authentication, product management, order processing, and payment integration.
+This is a fully functional **E-Commerce platform** built with **Node.js**, **Express.js**, and **MongoDB**. It provides a robust backend API for managing users, products, orders, carts, payments, and more. The platform is designed to handle essential e-commerce functionalities such as user authentication, product management, order processing, and payment integration. Containerized with Docker and enhanced with Redis for caching and session management.
+
+
 
 ---
 
@@ -50,12 +52,4 @@ This is a fully functional **E-Commerce platform** built with **Node.js**, **Exp
 - **Multer**: File upload handling.
 - **Joi**: Request validation.
 - **JWT**: Secure authentication.
-
----
-
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/ECommerce.git
-   cd ECommerce
+- **Docker**: Containerized application environment.
