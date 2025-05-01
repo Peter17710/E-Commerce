@@ -23,12 +23,6 @@ import appError from "../../utils/appError.js"
     next(new appError("invalid email or password" , 401))
     })
 
-
-    //1-check we have token or not
-    //2-verify token
-    //3-if user of this token exist or not
-    //4-check if this token is the last one or not (change password)
-
     export const protectRoutes = handleAsyncError(async(req,res,next)=>{
         let {token} = req.headers
         if(!token) return next(new appError("Please provide token" , 401))
@@ -44,7 +38,7 @@ import appError from "../../utils/appError.js"
             if(changePasswordTime>decoded.iat) return next(new appError("token invalid" , 401))
         }
 
-        req.user = user    //bn5zn el data bta3t el user 34an hn7tagha
+        req.user = user  
         next()
     })
 
